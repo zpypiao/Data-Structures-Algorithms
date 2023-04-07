@@ -19,14 +19,11 @@ def merge(li, low, mid, high):
     li[low: high+1] = result
     
 def merge_sort(li, low, high):
-    if low < high-1:
+    if low < high:
         mid = (low +high)//2
-        merge_sort(li, low, mid-1)
-        merge_sort(li, mid, high)
+        merge_sort(li, low, mid)
+        merge_sort(li, mid+1, high)
         merge(li, low, mid, high)
-    elif low ==high-1:
-        if li[low]>li[high]:
-            li[high], li[low] = li[low], li[high]
                 
 
 li = [int(i) for i in input('please enter:').split()]
