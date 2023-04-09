@@ -21,7 +21,7 @@ def solve_maze_by_stack(maze, start, end):
                print('No aviliable path!')
                return False
             elif stack[-1] == end:
-                print('Yep! I find the path!', stack, step='\n')
+                print('Yep! I find the path!', stack, sep='\n')
                 return True
             elif maze[m-1][n] == 0:
                 stack.append((m-1, n))
@@ -48,4 +48,4 @@ solve_maze_by_stack(maze, (1,1), (8,8))
 
 # use queue to solve
 def solve_maze_by_queue(maze, start, end):
-     
+     dirs = [
