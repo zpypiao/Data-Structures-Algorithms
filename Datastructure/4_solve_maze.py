@@ -1,3 +1,5 @@
+import copy
+
 maze = [
      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
      [1, 0, 0, 1, 0, 0, 0, 1, 0, 1],
@@ -10,6 +12,9 @@ maze = [
      [1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
+
+maze1 = copy.deepcopy(maze)
+maze2 = copy.deepcopy(maze)
 
 # use stack to solve
 def solve_maze_by_stack(maze, start, end):
@@ -43,16 +48,40 @@ def solve_maze_by_stack(maze, start, end):
     maze[start[0]][start[1]]=1
     search(maze, stack, end)
 
-solve_maze_by_stack(maze, (1,1), (8,8))
+solve_maze_by_stack(maze1, (1,1), (8,8))
 
 from collections import deque
 # use queue to solve
 def solve_maze_by_queue(maze, start, end):
     dirs = [
-        lambda x, y :(x+1, y),
-        lambda x, y :(x, y+1),
-        lambda x, y :(x-1, y),
-        lambda x, y :(x, y-1)
+        lambda x :(x[0]+1, x[1]),
+        lambda x :(x[0], x[1]+1),
+        lambda x :(x[0]-1, x[1]),
+        lambda x :(x[0], x[1]-1)
      ]
+    memo = {}
+    memo[start]=0
     q = deque()
-    
+    q.append(start)
+    maze[start[0]][start[1]]=2
+    while True:
+        temp = q.popleft()
+        if temp == end:
+            break
+        for dir in dirs:
+            if maze[dir(temp)[0]][dir(temp)[1]] == 0:
+                q.append((dir(temp)))
+                memo[dir(temp)] = temp
+                maze[dir(temp)[0]][dir(temp)[1]] = 2
+    path = deque()
+    path.append(end)
+    s = end
+    while memo[s]:
+        k = memo[s]
+        path.appendleft(k)
+        s = k
+    return path
+
+path = solve_maze_by_queue(maze2, (1, 1), (8, 8))
+for i in range(len(path)):
+    print(path.popleft())
