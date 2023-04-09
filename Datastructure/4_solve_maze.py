@@ -45,7 +45,14 @@ def solve_maze_by_stack(maze, start, end):
 
 solve_maze_by_stack(maze, (1,1), (8,8))
 
-
+from collections import deque
 # use queue to solve
 def solve_maze_by_queue(maze, start, end):
-     dirs = [
+    dirs = [
+        lambda x, y :(x+1, y),
+        lambda x, y :(x, y+1),
+        lambda x, y :(x-1, y),
+        lambda x, y :(x, y-1)
+     ]
+    q = deque()
+    
