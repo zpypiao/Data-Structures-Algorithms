@@ -17,8 +17,11 @@ def solve_maze_by_stack(maze, start, end):
     def search(maze, stack, end):
         while True:
             m, n = stack[-1][0], stack[-1][1]
-            if stack[-1] == end:
-                print(stack)
+            if stack is []:
+               print('No aviliable path!')
+               return False
+            elif stack[-1] == end:
+                print('Yep! I find the path!', stack, step='\n')
                 return True
             elif maze[m-1][n] == 0:
                 stack.append((m-1, n))
@@ -41,3 +44,8 @@ def solve_maze_by_stack(maze, start, end):
     search(maze, stack, end)
 
 solve_maze_by_stack(maze, (1,1), (8,8))
+
+
+# use queue to solve
+def solve_maze_by_queue(maze, start, end):
+     
