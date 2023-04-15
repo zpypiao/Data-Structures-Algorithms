@@ -680,3 +680,549 @@ for _ in range(n):
         res.append(True)
 
 print(res) """
+
+# 28. a reliable car
+""" def translate(num):
+    def decode_9(string):
+        res = 0
+        m = 1
+        for i in range(len(string)-1, -1, -1):
+            res += m*int(string[i])
+            m *= 9
+        return res
+    
+    def translate_to_nine(string):
+        strin = ''
+        for i in range(len(string)):
+            if int(string[i])>4:
+                strin += str(int(string[i])-1)
+            else:
+                strin += string[i]
+        return strin
+    
+    string = decode_9(translate_to_nine(str(num)))
+    
+    return string
+
+num = int(input())
+print(translate(num)) """
+
+# 29. package transport
+""" li = list(int(i) for i in input().split())
+max_weight = int(input())
+
+li.sort()
+temp = 0
+for i in range(min(len(li), 1000)):
+    temp += li[i]
+    if temp > max_weight:
+        p = i
+        break
+print(p) """
+
+# 30. the length of a continue string
+""" string = input()
+k = int(input())
+string += 'a'
+dirs = {}
+res = []
+temp = ''
+for i in range(len(string)):
+    if temp == '':
+        temp = string[i]
+    elif string[i] == temp[-1]:
+        temp += string[i]
+    else:
+        if temp[0] not in res:
+            res.append(temp[0])
+            dirs[temp[0]] = len(temp)
+        elif len(temp)>dirs[temp[0]]:
+            dirs[temp[0]] = len(temp)
+        temp = string[i]
+res.sort(key=lambda x: dirs[x], reverse = True)
+# print(res, dirs)
+if k>len(res):
+    print(-1)
+else:
+    print(dirs[res[k-1]]) """
+
+# 31. the smallest abs of the sum of two numbers
+""" nums = [int(i) for i in input().split()]
+res = 65535
+for i in range(len(nums)-1):
+    for j in range(i+1, len(nums)):
+        m = abs(nums[i]+nums[j])
+        if m<res:
+            res = m
+print(res) """
+
+# 32. flowline
+""" m, n = (int(i) for i in input().split())
+work = [int(i) for i in input().split()]
+time = 0
+if m >= n:
+    time = max(work)
+else:
+    work.sort()
+    workstation = [0 for _ in range(m)]
+    for i in range(len(work)):
+        min_flow = min(workstation)
+        min_location = workstation.index(min_flow)
+        workstation[min_location] += work[i]
+    time = max(workstation)
+print(time) """
+
+# 33. the min of the sum of two numbers with the random orser
+""" nums = [int(i) for i in input().split()]
+res = (0, 0, 65532)
+for i in range(len(nums)-1):
+    for j in range(i+1, len(nums)):
+        if abs(nums[i]+nums[j])<res[2]:
+            res = (min(nums[i], nums[j]), max(nums[i], nums[j]), abs(nums[i]+nums[j]))
+print(res) """
+
+# 34. the dispatch of the resourse of memory
+""" resourse = input().split(',')
+request = [int(i) for i in input().split()]
+dirs = {}
+resourse_li = []
+for each in resourse:
+    a, b = (int(i) for i in each.split(':'))
+    resourse_li.append(a)
+    dirs[a] = b
+resourse_li.sort()
+res = []
+for each in request:
+    c = 1
+    for i in range(len(resourse_li)):
+        if resourse_li[i] >= each:
+            res.append(True)
+            dirs[resourse_li[i]] -= 1
+            if dirs[resourse_li[i]] == 0:
+                resourse_li.pop(i)
+            c = 0
+            break
+    if c:
+        res.append(False)
+print(res) """
+
+# 35. check the equation is whether legal and return the most minus
+""" def check_input(tec, var, resourse, condition):
+    control = 1
+    for ind, val in enumerate(tec):
+        if len(val) != len(str(float(val))):
+            control = 0
+        tec[ind] = float(val)
+    for ind, val in enumerate(var):
+        if len(val) == len(str(float(val))):
+            control = 0
+        var[ind] = float(val)
+    for ind, val in enumerate(resourse):
+        if len(val) != len(str(float(val))):
+            control = 0
+        resourse[ind] = float(val)
+    for each in condition:
+        if each not in {'>', '>=', '<', '<=', '='}:
+            return False
+    if control:
+        return True
+    else:
+        return False
+
+tec, var, resourse, condition = (i.split() for i in input().split(';'))
+res_bool = check_input(tec, var, resourse, condition)
+n = len(var)
+res = 0
+s = 0
+for ind, val in enumerate(tec):
+    x = var[ind%n]
+    s += val*x
+    if ind%5 == 4:
+        m = s-resourse[ind//n]
+        if m>res:
+            res = m
+        s = 0
+print(res_bool, int(res)) """
+
+# 36. judge the substring of the string
+""" target = input()
+source = input()
+l = len(target)-1
+res = -1
+for i in range(len(source)-1, -1, -1):
+    if source[i] == target[l]:
+        l -= 1
+    if l == -1:
+        res = i
+        break
+print(res) """
+
+# 37. combine the urls
+""" def standard(string):
+    if string[-1] == '/':
+        string = string[:-1]
+    if string[0] != '/':
+        string = '/' + string
+    return string
+a, b = input().split()
+print(standard(a)+standard(b)) """
+
+# 38. to arrangr the reasonable party
+""" n = int(input())
+li = [int(i) for i in input().split()]
+target = int(input())
+res = 0
+for i in range(n-1):
+    for j in range(i+1, n):
+        if li[i]+li[j] == target:
+            res += 1
+print(res) """
+
+# 39. find a continue nums order
+""" sum_n, n = (int(i) for i in input().split())
+step = 1
+start = int((sum_n/n)-step*(n-1)/2)
+res = [start+i for i in range(n)]
+print(res) """
+
+# 40. calculate the smallest of the int in a string
+""" string = input()
+res = []
+resul = []
+temp = ''
+for val in string:
+    if ord(val) >= ord('0') and ord(val) <= ord('9'):
+        temp += val
+    elif val == '-' and len(temp):
+        res.append(temp)
+        temp = '-'
+    elif val == '-' and not len(temp):
+        temp = '-'
+    elif len(temp):
+        res.append(temp)
+        temp = ''
+for each in res:
+    if each[0]=='-':
+        resul.append(int(each))
+    else:
+        for i in each:
+            resul.append(int(i))
+print(sum(resul)) """
+
+# 41. the economic company
+""" n = int(input())
+money = [int(i) for i in input().split()]
+target = int(input())
+money.sort()
+res = 0
+for i in range(n-1):
+    if money[i]>=target:
+        res += 1
+    else:
+        for j in range(i+1, n):
+            if money[i]+money[j]>=target:
+                res += 1
+                money.pop(j)
+                money.append(0)
+print(res) """
+
+# 42. delete the letter which showed the min in the string
+""" k = input()
+string = []
+for each in k:
+    string.append(each)
+key = set(string)
+dirs = {}
+for each in key:
+    dirs[each] = string.count(each)
+string.sort(key=lambda x: dirs[x])
+con = dirs[string[0]]
+res = []
+for each in string:
+    if dirs[each] != con:
+        res.append(each)
+if res == []:
+    print('empty')
+else:
+    r = ''
+    for each in res:
+        r += each
+    print(r) """
+
+# 43. the classification of the data
+""" def encode_two(num):
+    string = str(num%2)
+    while num//2:
+        num = num//2
+        temp = str(num%2)
+        string = temp+string 
+    return string
+
+def check_value(num, b, c):
+    string = encode_two(num)
+    print(string)
+    num = 0
+    for i in string:
+        num += int(i)
+    if num%b<c:
+        return num%b
+    else:
+        return 0
+
+ref = [int(i) for i in input().split()]
+res = 0
+for i in range(2, len(ref)):
+    print(check_value(ref[i], ref[1], ref[0]))
+    res += check_value(ref[i], ref[1], ref[0])
+print(res) """
+
+# 44. to describe a order
+""" def devide(string):
+    res = []
+    temp = ''
+    for ind, each in enumerate(string):
+        if temp == '' or each == temp[-1]:
+            temp += each
+            if ind == len(string)-1:
+                res.append(temp)
+        else:
+            res.append(temp)
+            if ind == len(string)-1:
+                res.append(each)
+            else:
+                temp = each
+    return res
+
+def calculate(k):
+    if k == 1:
+        return '1'
+    else:
+        li = devide(calculate(k-1))
+        string = ''
+        for each in li:
+            string = string+str(len(each))+each[0]
+        return string
+while True:
+    k = int(input())
+    print(calculate(k)) """
+
+# 45. to paint the number
+""" nums = [int(i) for i in input().split()]
+dirs = {}
+for each in nums:
+    dirs[each] = 1
+res = 0
+if 1 not in nums:
+    for i in range(len(nums)):
+        if dirs[nums[i]]:
+            dirs[nums[i]] = 0
+            for j in range(i+1,len(nums)):
+                if nums[j]%nums[i] == 0:
+                    dirs[nums[j]] = 0
+            res += 1
+else:
+    res = 1
+print(res) """
+
+# 46. two devide tree
+""" def find_root(ind):
+    if ind == 2 or ind == 1:
+        return [0]
+    elif ind%2 == 0:
+        return find_root(ind//2-1)+[ind//2-1]
+    else:
+        return find_root(ind//2)+[ind//2]
+nums = [int(i) for i in input().split()]
+n = len(nums)
+k = -1
+ind = 0
+while ind<n:
+    k += 1
+    ind += 2**k
+
+ind = ind - 2**k + 1
+temp = []
+for i in range(ind,len(nums)):
+    if nums[i] != -1:
+        temp.append(nums[i])
+leaf_value = min(temp)
+for i in range(ind, len(nums)):
+    if nums[i] == leaf_value:
+        leaf = i
+        break
+path = find_root(leaf)
+path.append(leaf)
+res = []
+for each in path:
+    res.append(nums[each])
+print(res) """
+
+# 47. combine the order number
+""" length = int(input())
+n = int(input())
+nums = []
+for i in range(n):
+    nums.append([int(i) for i in input().split()])
+control = [1 for _ in range(n)]
+res = []
+minus = length
+while sum(control):
+    for i in range(n):
+        print(nums, res)
+        if control[i] and len(nums[i])>minus:
+            res += nums[i][:minus]
+            nums[i] = nums[i][minus:]
+            minus = length
+        elif control[i] and len(nums[i])==minus:
+            res += nums[i]
+            control[i] = 0
+            minus = length
+        elif control[i] and len(nums)<minus:
+            res += nums[i]
+            control[i] = 0
+            minus = minus-len(nums[i])
+print(res) """
+
+# 48. remove the same value and sort the orser numbers
+""" nums = [int(i) for i in input().split()]
+dirs = {}
+for each in set(nums):
+    dirs[each] = nums.count(each)
+nums.sort(key=lambda x:dirs[x], reverse = True)
+res = list(set(nums))
+res.sort(key=lambda x:nums.index(x))
+print(res) """
+
+# 49. the smallest number which is consisit by the order numbers
+""" def mysort(li):
+    for i in range(len(li)):
+        for j in range(0, len(li)-i-1):
+            if len(li[j])>len(li[j+1]):
+                li[j], li[j+1] = li[j+1], li[j]
+            elif len(li[j]) == len(li[j+1]):
+                for k in range(len(li[j])):
+                    if li[j][k] > li[j+1][k]:
+                        li[j], li[j+1] = li[j+1], li[j]
+                        break
+                    if li[j][k] < li[j+1][k]:
+                        break
+
+def rearrangesort(li):
+    for i in range(len(li)):
+        for j in range(len(li)-i-1):
+            if li[j][0] > li[j+1][0]:
+                li[j], li[j+1] = li[j+1], li[j]
+            elif li[j][0] == li[j+1][0]:
+                p = 0
+                while True:
+                    p += 1
+                    if len(li[j])>p and len(li[j+1])>p:
+                        if li[j][0] > li[j+1][0]:
+                            li[j], li[j+1] = li[j+1], li[j]
+                            break
+                        elif li[j][0] < li[j+1][0]:
+                            break
+                    elif len(li[j])>len(li[j+1]):
+                        if li[j][p] > li[j][0]:
+                            li[j], li[j+1] = li[j+1], li[j]
+                            break
+                        else:
+                            break
+                    elif len(li[j])<len(li[j+1]):
+                        if li[j+1][p] < li[j+1][0]:
+                            li[j], li[j+1] = li[j+1], li[j]
+                            break
+                        else:
+                            break
+                    else:
+                        break
+    return li
+
+nums = input().split()
+mysort(nums)
+if len(nums)<=3:
+    res = rearrangesort(nums)
+else:
+    res = rearrangesort(nums[:3])
+string = ''
+for each in res:
+    string += each
+print(string) """
+
+# 50. a flower number
+""" def isflowernumber(num):
+    string = str(num)
+    n = len(string)
+    res = 0
+    for each in string:
+        res += int(each)**n
+    if res == num:
+        return True
+    else:
+        return False
+
+n, k = (int(i) for i in input().split())
+start = 10**(n-1)
+end = 10**n
+control = -1
+res = -1
+for i in range(start, end):
+    if isflowernumber(i):
+        control += 1
+        if control == k:
+            res = i
+            break
+print(res) """
+
+# 51. the multiply of several pure number
+""" def ispure(num):
+    if num == 2:
+        return True
+    else:
+        con = num**0.5
+        if con - int(con) == 0:
+            return False
+        else:
+            for i in range(2,int(num)):
+                if num%i == 0:
+                    return False
+            return True
+
+num = int(input())
+con = num**0.5
+p = 0
+if con - int(con) == 0:
+    print(int(con), int(con))
+else:
+    for i in range(2, int(con)+1):
+        if num%i == 0 and ispure(i) and ispure(num//i):
+            p = 1
+            a, b = i, num//i
+    if p:
+        print(a,b)
+    else:
+        print(-1,-1) """
+
+# 52. the most area of sun resourse board
+""" nums = [int(i) for i in input().split()]
+res = 0
+for i in range(len(nums)-1):
+    for j in range(i+1, len(nums)):
+        m = min(nums[i], nums[j])*(j-i)
+        if m>res:
+            res = m
+print(res) """
+
+# 53. stastistics of the cars in parking
+""" li = input().replace(' ', '')
+port = li.split('0')
+res = 0
+for each in port:
+    m = len(each)
+    if m and m%3 == 0:
+        res += m//3
+    elif m:
+        res += m//3+1
+print(res) """
+
+# 54. statistic the scores of shoot comprtition
